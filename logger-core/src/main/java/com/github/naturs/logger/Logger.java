@@ -88,6 +88,34 @@ public class Logger {
 		printer.log(priority, tag, message, throwable, strategy, invokeClass);
 	}
 
+	public static void log(int priority, String tag, String message, Object... args) {
+		switch (priority) {
+			case VERBOSE:
+				printer.tag(tag);
+				printer.v(tag, message, args);
+				break;
+			case DEBUG:
+				printer.tag(tag);
+				printer.d(tag, message, args);
+				break;
+			case INFO:
+				printer.tag(tag);
+				printer.i(tag, message, args);
+				break;
+			case WARN:
+				printer.tag(tag);
+				printer.w(tag, message, args);
+				break;
+			case ERROR:
+				printer.tag(tag);
+				printer.e(tag, message, args);
+				break;
+			case ASSERT:
+			default:
+				throw new RuntimeException(String.format("Invalid priority: %s", priority));
+		}
+	}
+
 	public static void d(String message, Object... args) {
 		printer.d(message, args);
 	}
