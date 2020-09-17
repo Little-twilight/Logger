@@ -30,11 +30,13 @@ public class DiskLogStrategy implements LogStrategy {
 
     private final String folder;
     private final int maxFileSize;
+    private final String fileExtension;
 
-    public WriteHandler(Looper looper, String folder, int maxFileSize) {
+    public WriteHandler(Looper looper, String folder, String fileExtension, int maxFileSize) {
       super(looper);
       this.folder = folder;
       this.maxFileSize = maxFileSize;
+      this.fileExtension = fileExtension;
     }
 
     @SuppressWarnings("checkstyle:emptyblock")
@@ -84,11 +86,11 @@ public class DiskLogStrategy implements LogStrategy {
       File newFile;
       File existingFile = null;
 
-      newFile = new File(folder, String.format("%s_%s.csv", fileName, newFileCount));
+      newFile = new File(folder, String.format("%s_%s.%s", fileName, newFileCount, fileExtension));
       while (newFile.exists()) {
         existingFile = newFile;
         newFileCount++;
-        newFile = new File(folder, String.format("%s_%s.csv", fileName, newFileCount));
+        newFile = new File(folder, String.format("%s_%s.%s", fileName, newFileCount, fileExtension));
       }
 
       if (existingFile != null) {
